@@ -1,0 +1,29 @@
+import Joi from "joi";
+
+const name = Joi.string().trim().min(2).max(100).required().messages({
+  "string.empty": "Workspace name is required",
+  "string.min": "Workspace name must be at least 2 characters",
+  "string.max": "Workspace name must not exceed 100 characters",
+  "any.required": "Workspace name is required",
+});
+
+const description = Joi.string()
+  .trim()
+  .max(500)
+  .allow("")
+  .default("")
+  .messages({
+    "string.max": "Description must not exceed 500 characters",
+  });
+
+const createWorkspaceSchema = Joi.object({
+  name,
+  description,
+});
+
+const updateWorkspaceSchema = Joi.object({
+  name: name.optional(),
+  description: description.optional(),
+});
+
+export { createWorkspaceSchema, updateWorkspaceSchema };
