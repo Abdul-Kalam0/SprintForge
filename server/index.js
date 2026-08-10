@@ -5,14 +5,22 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import errorHandler from "./middleware/errorHandler.js";
 import authRoutes from "./modules/auth/auth.routes.js";
-
+import workspaceRoutes from "./modules/workspace/workspace.routes.js";
+import projectRoutes from "./modules/project/project.routes.js";
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 
+//Auth
 app.use("/api/v1", authRoutes);
+
+//Workspace
+app.use("/api/v1", workspaceRoutes);
+
+//Project
+app.use("/api/v1", projectRoutes);
 
 app.use(errorHandler);
 
