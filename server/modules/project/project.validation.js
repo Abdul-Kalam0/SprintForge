@@ -41,4 +41,16 @@ const updateProjectSchema = Joi.object({
   dueDate: dueDate.optional(),
 });
 
-export { createProjectSchema, updateProjectSchema };
+const addProjectMemberSchema = Joi.object({
+  userId: Joi.string().hex().length(24).required().messages({
+    "string.hex": "User ID must be a valid ID",
+    "string.length": "User ID must be a valid ID",
+    "any.required": "User ID is required",
+  }),
+
+  role: Joi.string().valid("admin", "member").default("member").messages({
+    "any.only": "Role must be either admin or member",
+  }),
+});
+
+export { createProjectSchema, updateProjectSchema, addProjectMemberSchema };

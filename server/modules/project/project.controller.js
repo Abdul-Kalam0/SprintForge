@@ -67,3 +67,63 @@ export const updateProject = async (req, res, next) => {
     next(error);
   }
 };
+
+// Get available members
+export const getAvailableProjectMembers = async (req, res, next) => {
+  try {
+    const users = await getAvailableProjectMembersService(
+      req.userId,
+      req.params.workspaceId,
+      req.params.projectId,
+    );
+
+    return res
+      .status(200)
+      .json(
+        new ApiResponse(
+          { users },
+          "Available project members fetched successfully",
+        ),
+      );
+  } catch (error) {
+    next(error);
+  }
+};
+
+// Add project member
+export const addProjectMember = async (req, res, next) => {
+  try {
+    const project = await addProjectMemberService(
+      req.userId,
+      req.params.workspaceId,
+      req.params.projectId,
+      req.body,
+    );
+
+    return res
+      .status(200)
+      .json(new ApiResponse({ project }, "Project member added successfully"));
+  } catch (error) {
+    next(error);
+  }
+};
+
+// Remove project member
+export const removeProjectMember = async (req, res, next) => {
+  try {
+    const project = await removeProjectMemberService(
+      req.userId,
+      req.params.workspaceId,
+      req.params.projectId,
+      req.params.userId,
+    );
+
+    return res
+      .status(200)
+      .json(
+        new ApiResponse({ project }, "Project member removed successfully"),
+      );
+  } catch (error) {
+    next(error);
+  }
+};
