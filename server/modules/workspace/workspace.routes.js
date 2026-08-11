@@ -8,13 +8,16 @@ import {
   getAllWorkspace,
   getWorkspace,
   updateWorkspace,
-  deleteAllWorkspace,
   deleteWorkspace,
+  addWorkspaceMember,
+  removeWorkspaceMember,
+  getAvailableWorkspaceMembers,
 } from "./workspace.controller.js";
 
 import {
   createWorkspaceSchema,
   updateWorkspaceSchema,
+  addWorkspaceMemberSchema,
 } from "./workspace.validation.js";
 
 const router = express.Router();
@@ -37,8 +40,27 @@ router.put(
   updateWorkspace,
 );
 
-router.delete("/workspaces", authenticate, deleteAllWorkspace);
-
 router.delete("/workspaces/:workspaceId", authenticate, deleteWorkspace);
+
+// Workspace Members
+
+router.get(
+  "/workspaces/:workspaceId/members/available",
+  authenticate,
+  getAvailableWorkspaceMembers,
+);
+
+router.post(
+  "/workspaces/:workspaceId/members",
+  authenticate,
+  validate(addWorkspaceMemberSchema),
+  addWorkspaceMember,
+);
+
+router.delete(
+  "/workspaces/:workspaceId/members/:userId",
+  authenticate,
+  removeWorkspaceMember,
+);
 
 export default router;

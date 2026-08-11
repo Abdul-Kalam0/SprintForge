@@ -22,6 +22,22 @@ const workspaceSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
+
+    members: [
+      {
+        user: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "User",
+          required: true,
+        },
+
+        role: {
+          type: String,
+          enum: ["admin", "member"],
+          default: "member",
+        },
+      },
+    ],
   },
   {
     timestamps: true,
@@ -29,6 +45,8 @@ const workspaceSchema = new mongoose.Schema(
 );
 
 workspaceSchema.index({ owner: 1, name: 1 }, { unique: true });
+
+workspaceSchema.index({ _id: 1, "members.user": 1 });
 
 const WorkspaceModel = mongoose.model("Workspace", workspaceSchema);
 

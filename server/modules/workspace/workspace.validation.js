@@ -16,6 +16,18 @@ const description = Joi.string()
     "string.max": "Description must not exceed 500 characters",
   });
 
+const addWorkspaceMemberSchema = Joi.object({
+  userId: Joi.string().hex().length(24).required().messages({
+    "string.hex": "User ID must be a valid ID",
+    "string.length": "User ID must be a valid ID",
+    "any.required": "User ID is required",
+  }),
+
+  role: Joi.string().valid("admin", "member").default("member").messages({
+    "any.only": "Role must be either admin or member",
+  }),
+});
+
 const createWorkspaceSchema = Joi.object({
   name,
   description,
@@ -26,4 +38,8 @@ const updateWorkspaceSchema = Joi.object({
   description: description.optional(),
 });
 
-export { createWorkspaceSchema, updateWorkspaceSchema };
+export {
+  createWorkspaceSchema,
+  updateWorkspaceSchema,
+  addWorkspaceMemberSchema,
+};
