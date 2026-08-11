@@ -1,5 +1,11 @@
-import ApiError from "../../shared/ApiError.js";
-import { createTaskService } from "./task.service.js";
+import ApiResponse from "../../shared/ApiResponse.js";
+
+import {
+  createTaskService,
+  getAllTasksService,
+  getTaskService,
+  updateTaskService,
+} from "./task.service.js";
 
 export const createTask = async (req, res, next) => {
   try {
@@ -8,13 +14,15 @@ export const createTask = async (req, res, next) => {
       req.params.projectId,
       req.body,
     );
+
     return res
       .status(201)
-      .json(new ApiError({ project }, "Task created successfully"));
+      .json(new ApiResponse({ task }, "Task created successfully"));
   } catch (error) {
     next(error);
   }
 };
+
 export const getAllTasks = async (req, res, next) => {
   try {
     const tasks = await getAllTasksService(req.userId, req.params.projectId);

@@ -27,11 +27,26 @@ const dueDate = Joi.date().greater(Joi.ref("startDate")).required().messages({
   "any.required": "Due date is required",
 });
 
+const status = Joi.string()
+  .valid("todo", "in-progress", "completed", "cancelled")
+  .default("todo")
+  .messages({
+    "any.only": "Status must be todo, in-progress, completed, or cancelled",
+  });
+
+const assignee = Joi.string().hex().length(24).required().messages({
+  "string.hex": "Assignee must be a valid user ID",
+  "string.length": "Assignee must be a valid user ID",
+  "any.required": "Assignee is required",
+});
+
 const createTaskSchema = Joi.object({
   title,
   description,
   startDate,
   dueDate,
+  status,
+  assignee,
 });
 
 const updateTaskSchema = Joi.object({
@@ -39,6 +54,8 @@ const updateTaskSchema = Joi.object({
   description: description.optional(),
   startDate: startDate.optional(),
   dueDate: dueDate.optional(),
+  status: status.optional(),
+  assignee: assignee.optional(),
 });
 
 export { createTaskSchema, updateTaskSchema };

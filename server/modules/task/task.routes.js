@@ -13,6 +13,7 @@ import {
 
 const router = express.Router();
 
+// Create Task
 router.post(
   "/projects/:projectId/tasks",
   authenticate,
@@ -20,10 +21,13 @@ router.post(
   createTask,
 );
 
+// Get All Tasks
 router.get("/projects/:projectId/tasks", authenticate, getAllTasks);
 
+// Get Single Task
 router.get("/projects/:projectId/tasks/:taskId", authenticate, getTask);
 
+// Update Task
 router.put(
   "/projects/:projectId/tasks/:taskId",
   authenticate,
